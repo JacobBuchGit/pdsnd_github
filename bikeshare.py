@@ -174,6 +174,31 @@ def user_stats(df):
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
     
+def display_data(df):
+    """Display 5 rows at a time for the bikeshare data"""
+    view_data = input('Would you like to the first 5 rows of bikeshare data? Enter yes or no\n').lower()
+    while view_data not in ['yes', 'no']:
+        viewRawData = input("Please enter 'yes' or 'no'.\n")
+    
+    start_loc = 0
+    while view_data == 'yes':
+        end_loc = start_loc + 5
+        print(df.iloc[start_loc:end_loc])
+        start_loc = end_loc
+        view_data = input("Would you like to view the next 5 rows? Enter 'yes' to continue.\n").lower()
+    
+def display_data(df):
+    """Display 5 rows at a time for the bikeshare data"""
+    view_data = input('Would you like to the first 5 rows of bikeshare data? Enter yes or no\n').lower()
+    while view_data not in ['yes', 'no']:
+        viewRawData = input("Please enter 'yes' or 'no'.\n")
+    
+    start_loc = 0
+    while view_data == 'yes':
+        end_loc = start_loc + 5
+        print(df.iloc[start_loc:end_loc])
+        start_loc = end_loc
+        view_data = input("Would you like to view the next 5 rows? Enter 'yes' to continue.\n").lower()
 
 def main():
     while True:
@@ -187,6 +212,9 @@ def main():
         if 'Trip Duration' in df:
             trip_duration_stats(df)
         user_stats(df)
+        
+        # Check if the user wants to see the raw data or not
+        display_data(df)
 
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
