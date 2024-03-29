@@ -21,23 +21,23 @@ def get_filters():
     # Get user input for city (chicago, new york city, washington).
     cities = set(["chicago", "new york city", "washington"])
     city = input("Which city would you like to analyze? (chicago, new york city, or washington)\n")
-    while city not in cities:
+    while city.lower() not in cities:
         city = input("Please enter a valid city (chicago, new york city, or washington)\n")
 
     # Get user input for month (all, january, february, ... , june)
     months = set(["all", "january", "february", "march", "april", "may", "june"])
     month = input("During which month(s)? (all, january, february, ... , june)\n")
-    while month not in months:
+    while month.lower() not in months:
         month = input("Please enter a valid month (all, january, february, ... , june):\n")
 
     # Get user input for day of week (all, monday, tuesday, ... sunday)
     days = set(["all", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"])
     day = input("During which day(s)? (all, monday, tuesday, ... sunday)\n")
-    while day not in days:
+    while day.lower() not in days:
         day = input("Please enter a valid day of the week (all, monday, tuesday, ... sunday):\n")
 
     print('-'*40)
-    return city, month, day
+    return city.lower(), month.lower(), day.lower()
 
 
 def load_data(city, month, day):
@@ -130,7 +130,7 @@ def trip_duration_stats(df):
     total_travel_time %= 3600 # update total seconds to remove that many hours
     minutes = total_travel_time // 60 # Get number of minutes if any
     seconds = total_travel_time % 60 # Set seconds to be equal to remaining seconds
-    print(f"The total travel time is {years} years, {days} days, {hours} hours, {minutes} minutes, and {seconds} seconds." )
+    print(f"The total travel time is {years} years, {days} days, {hours} hours, {minutes} minutes, and {seconds} seconds.")
 
     # Find and display the mean travel time
     mean_travel_time = df['Trip Duration'].mean();
@@ -138,9 +138,8 @@ def trip_duration_stats(df):
     mean_travel_time = mean_travel_time % 3600 # update total seconds to remove the hours
     minutes = mean_travel_time // 60
     seconds = mean_travel_time % 60
-    print(f"The mean travel time is {m.floor(hours)} hours, {m.floor(minutes)} minutes, and {m.floor(seconds)} seconds.")
-
-
+    print(f"The mean travel time is {m.floor(hours)} hours, {m.floor(minutes)} minutes, and {m.floor(seconds)} seconds")
+          
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
@@ -152,26 +151,54 @@ def user_stats(df):
     start_time = time.time()
 
     # Caclulate and display counts of user types
-    count_of_user_types = df['User Type'].value_counts().to_string()
-    print(f"The total count of each user type: \n{count_of_user_types}\n")
+    if 'User Type' in df:
+        count_of_user_types = df['User Type'].value_counts().to_string()
+        print(f"The total count of each user type: \n{count_of_user_types}\n")
 
     # Calculate and display counts of gender
-    count_of_gender = df['Gender'].value_counts().to_string()
-    print(f"The total count of each gender: \n{count_of_gender}\n")
+    if 'Gender' in df:
+        count_of_gender = df['Gender'].value_counts().to_string()
+        print(f"The total count of each gender: \n{count_of_gender}\n")
 
     # Find and display earliest, most recent, and most common year of birth
-    earliest_birth_year = df['Birth Year'].min()
-    print(f"The earliest birth year on record is {m.floor(earliest_birth_year)}")
+    if 'Birth Year' in df:
+        earliest_birth_year = df['Birth Year'].min()
+        print(f"The earliest birth year on record is {m.floor(earliest_birth_year)}")
     
-    most_recent_birth_year = df['Birth Year'].max()
-    print(f"The most recent birth year on record is {m.floor(most_recent_birth_year)}")
+        most_recent_birth_year = df['Birth Year'].max()
+        print(f"The most recent birth year on record is {m.floor(most_recent_birth_year)}")
     
-    most_common_birth_year = df['Birth Year'].mode().iloc[0]
-    print(f"The most common birth year on record is {m.floor(most_common_birth_year)}")
+        most_common_birth_year = df['Birth Year'].mode().iloc[0]
+        print(f"The most common birth year on record is {m.floor(most_common_birth_year)}")
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
-
+    
+def display_data(df):
+    """Display 5 rows at a time for the bikeshare data"""
+    view_data = input('Would you like to the first 5 rows of bikeshare data? Enter yes or no\n').lower()
+    while view_data not in ['yes', 'no']:
+        viewRawData = input("Please enter 'yes' or 'no'.\n")
+    
+    start_loc = 0
+    while view_data == 'yes':
+        end_loc = start_loc + 5
+        print(df.iloc[start_loc:end_loc])
+        start_loc = end_loc
+        view_data = input("Would you like to view the next 5 rows? Enter 'yes' to continue.\n").lower()
+    
+def display_data(df):
+    """Display 5 rows at a time for the bikeshare data"""
+    view_data = input('Would you like to the first 5 rows of bikeshare data? Enter yes or no\n').lower()
+    while view_data not in ['yes', 'no']:
+        viewRawData = input("Please enter 'yes' or 'no'.\n")
+    
+    start_loc = 0
+    while view_data == 'yes':
+        end_loc = start_loc + 5
+        print(df.iloc[start_loc:end_loc])
+        start_loc = end_loc
+        view_data = input("Would you like to view the next 5 rows? Enter 'yes' to continue.\n").lower()
 
 def main():
     while True:
@@ -180,12 +207,17 @@ def main():
         df = load_data(city, month, day)
 
         # Display stats about the selected city
-        time_stats(df)
-        station_stats(df)
-        trip_duration_stats(df)
+        if 'Start Time' in df:
+            time_stats(df)
+        if 'Start Station' in df and 'End Station' in df:
+            station_stats(df)
+        if 'Trip Duration' in df:
+            trip_duration_stats(df)
         user_stats(df)
+        
+        # Check if the user wants to see the raw data or not
+        display_data(df)
 
-        # Ask user if they want to restart the query or not
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
             break
