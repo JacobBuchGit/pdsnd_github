@@ -13,6 +13,7 @@ The script then displays the following info from the data:
  * Station Stats - Most commonly used start station, most commonly used end station, and most common station combination to start and end at.
  * Trip Duration Stats - Total travel time and mean travel time across all entries.
  * User Stats - Total number of users, count of each gender, earlier birth year on record, most recent birth year on record, and most common birth year on record.
+ * Display Raw Data - Display the first 5 rows of the data and then continually prompt user for whether or not they want to see the next 5 rows.
 
 The user is then prompted with the option to redo their search with a new filter.
 
