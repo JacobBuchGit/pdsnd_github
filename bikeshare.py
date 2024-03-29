@@ -18,19 +18,19 @@ def get_filters():
     """
     print('Hello! Let\'s explore some US bikeshare data!')
     
-    # TO DO: get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
+    # Get user input for city (chicago, new york city, washington).
     cities = set(["chicago", "new york city", "washington"])
     city = input("Which city would you like to analyze? (chicago, new york city, or washington)\n")
     while city not in cities:
         city = input("Please enter a valid city (chicago, new york city, or washington)\n")
 
-    # TO DO: get user input for month (all, january, february, ... , june)
+    # Get user input for month (all, january, february, ... , june)
     months = set(["all", "january", "february", "march", "april", "may", "june"])
     month = input("During which month(s)? (all, january, february, ... , june)\n")
     while month not in months:
         month = input("Please enter a valid month (all, january, february, ... , june):\n")
 
-    # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
+    # Get user input for day of week (all, monday, tuesday, ... sunday)
     days = set(["all", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"])
     day = input("During which day(s)? (all, monday, tuesday, ... sunday)\n")
     while day not in days:
@@ -51,7 +51,7 @@ def load_data(city, month, day):
     Returns:
         df - Pandas DataFrame containing city data filtered by month and day
     """
-    # convert city to file name and load csv into DataFrame
+    # Convert city to file name and load csv into DataFrame
     city = city.replace(" ", "_") + ".csv"
     df = pd.read_csv(city)
     
