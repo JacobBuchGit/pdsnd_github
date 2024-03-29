@@ -175,14 +175,17 @@ def user_stats(df):
 
 def main():
     while True:
+        # Ask user which city they want to view stats for and then load the table into a data frame
         city, month, day = get_filters()
         df = load_data(city, month, day)
 
+        # Display stats about the selected city
         time_stats(df)
         station_stats(df)
         trip_duration_stats(df)
         user_stats(df)
 
+        # Ask user if they want to restart the query or not
         restart = input('\nWould you like to restart? Enter yes or no.\n')
         if restart.lower() != 'yes':
             break
