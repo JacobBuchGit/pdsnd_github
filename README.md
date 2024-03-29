@@ -1,15 +1,17 @@
 ### Date created
-Include the date you created this project and README file.
+March 28th, 2024
 
 ### Project Title
-Replace the Project Title
+Bikeshare Analysis
 
 ### Description
 Describe what your project is about and what it does
 
 ### Files used
-Include the files used
+bikeshare.py
+chicago.csv
+new_york_city.csv
+washington.csv
 
 ### Credits
-It's important to give proper credit. Add links to any repo that inspired you or blogposts you consulted.
-
+Thanks to Udacity (https://github.com/udacity) for all their help and guidance.
